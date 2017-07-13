@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<title>Python Essentials</title>
+	<head>
+		<link rel="shortcut icon" type="image/x-icon" href="tabicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	<body>
+	<div data-role="page" id="pageone">
+	  <div data-role="header">
+	    <h1>Python essentials</h1>
+	  </div>
+
+	  <div data-role="main">
+	    <div data-role="collapsible">
+	      <h4>Program to send and verify OTP.</h4>
+	      <pre>
+	      	from urllib.request import urlopen
+	      	import uuid
+	      	recieverNumber = input("Enter your mobile number: ")
+	      	generatedOTP = int(str(uuid.uuid4().int)[0:6])
+	      	url = "http://sms.goforsms.com/sendsmsv2.asp?user=cheart&password=123456&sender=cheart&text=Your+OTP+is+"+str(generatedOTP)+"&PhoneNumber="+recieverNumber+"&track=1"
+	      	urlopen(url).read()
+	      	userInput = input("Enter your OTP: ")
+	      	if (str(generatedOTP) == userInput):
+	      		print("Success")
+	      	else:
+	      		print("Invalid OTP")
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to send an e-mail.</h4>
+	      <pre>
+	      import smtplib
+	      from emailCredentials import emailaddress, password
+	      tomail = input("enter email address: ")
+	      subject = input("Enter subject: ")
+	      text = input("Enter your message here: ")
+	      message = 'Subject: {}\n\n{}'.format(subject, text)
+	      try:
+			mail = smtplib.SMTP('smtp.gmail.com', 587)
+			mail.ehlo()
+			mail.starttls()
+			mail.login(emailaddress, password)
+			mail.sendmail(emailaddress, tomail, message)
+			mail.close()
+	      except:
+			print("Something went wrong. Unable to send e-mail.")
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to print Telugu meaning of English word.</h4>
+	      <pre>
+	      	from urllib.request import urlopen
+	      	from bs4 import BeautifulSoup
+	      	word = input("Enter an english word: ")
+	      	data = urlopen("http://www.shabdkosh.com/te/translate?e="+word+"&l=te")
+	      	html_data = data.read()
+	      	soup = BeautifulSoup(html_data, "html.parser")
+	      	list = []
+	      	for a in soup.findAll('a'):
+	      		list.append(a.text)
+	      	print("Telugu meaning: " + list[29])
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to convert color image to grayscale.</h4>
+	      <pre>
+	      	import sys
+	      	from datetime import *
+	      	from PIL import Image
+	      	from datetime import datetime
+	      	filePath = sys.argv[1]
+	      	imageObj = Image.open(filePath)
+	      	time = datetime.now()
+	      	imgName = str(date.today()) + str(time.hour) + str(time.minute) + str(time.second) + '.jpg'
+	      	imageObj.convert(mode = 'L').save(imgName)
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to read google contacts csv.</h4>
+	      <pre>
+	      import csv
+	      import codecs
+	      f=codecs.open("google.csv","rb","utf-16")
+	      reader = csv.reader(f)
+	      for row in reader:
+	      	print(row, end = "\n\n\n")</pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to print RAM and Disk usage.</h4>
+	      <pre>
+	      import psutil
+	      print("RAM usage\n", psutil.virtual_memory())
+	      print("Disk usage\n", psutil.disk_usage('/'))
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to call ps command and store results in database.</h4>
+	      <pre>
+	      import os
+	      import sqlite3 as lite
+	      import unicodecsv
+	      databaseName = "SystemProcessStatus.db"
+	      databaseObject = lite.connect(databaseName)
+	      cursorObject = databaseObject.cursor()
+	      cmd = 'tasklist /v'
+	      cmdObject = os.popen(cmd).read()
+	      cursorObject.execute("CREATE TABLE Process_Status(Image_Name Text, PID Text, Session_Name Text, Session Text, Mem_Usage Text, Status Text, User_Name Text, CPU_Time Text, Window_Title Text)")
+	      with open('ProcessStatus.txt', "w") as file:
+	      	data=[row.split('\t') for row in file.readlines()]
+	      	cursorObject.executemany("INSERT INTO Process_Status(Image_Name, PID, Session_Name, Session, Mem_Usage, Status, User_Name, CPU_Time, Window_Title) VALUES (?, ?, ?);", data)
+	      databaseObject.commit()
+	      print("System process status is stored in a database.")
+	      </pre>
+	    </div>
+
+	    <div data-role="collapsible">
+	      <h4>Program to display temperature of any location.</h4>
+	      <pre>
+	      from pyowm import OWM
+	      import json
+	      apiKey = 'e25fe6d8755ff82c8932105b0c5214ac'
+	      owm = OWM(apiKey)
+	      print("Temperature of which place do you want to know?")
+	      place = input()
+	      observation = owm.weather_at_place(place)
+	      weatherInfo = observation.get_weather()
+	      temp = weatherInfo.get_temperature('celsius')
+	      temp=temp.get('temp')
+	      celsius = '\u00b0C'
+	      print(str(temp) + celsius)
+	      </pre>
+	    </div>
+	</div>
+</body>
+</html>
