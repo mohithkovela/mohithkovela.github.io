@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Make way to few mysteries out of your mind"
+title:  "No more mysteries"
 date:   2017-07-07 06:13:34 +0000
 categories: Experiment programs
 ---
